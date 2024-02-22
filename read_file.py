@@ -1,6 +1,7 @@
-# This file is part of ETHAM.  The COPYRIGHT file at the top level of
+# This file is part of ETHAM. The COPYRIGHT file at the top level of
 # this repository contains the full copyright notices and license terms.
-#ETHAM by Zacarias Juliano Capingala - Comunidadedo Saber
+# ETHAM by Zacarias Juliano Capingala - Comunidade Do Saber
+
 import os
 import json
 from difflib import get_close_matches
@@ -10,10 +11,6 @@ from difflib import get_close_matches
 def create_file(file_name: str):
     content: dict = {
             "questions": [
-                {
-                "question": "Olá...",
-                "answer": "Olá mundo..."
-                },
                 {
                 "question": "ola",
                 "answer": "Ola mundo..."
@@ -49,11 +46,11 @@ def update_file_content(file_path: str, data: dict):
 
 def delete_file(file_path):
     if not os.path.exists(file_path):
-        print(f'O arquivo "{file_path}" não existe. Não é possível excluir.')
+        print(f'The file {file_path} does not exist.')
         return
 
     os.remove(file_path)
-    print(f'Arquivo "{file_path}" excluído com sucesso.')
+    print(f'The file {file_path} was deleted successfully.')
 
 
 #Search for the answer
@@ -85,27 +82,24 @@ def get_input(info: str):
 #ETHAM     
 def chat_bot(knowledge_base):    
     while True:
-        user_input: str = get_input('Você: ')
+        user_input: str = get_input('YOU: ')
 
         if user_input.lower() == 'quit':
             break
 
         best_match: str or None = find_best_match(user_input.lower(), [q["question"].lower() for q in knowledge_base["questions"]])
-
         if best_match:
             answer: str = get_answer_for_question(best_match, knowledge_base)
-            print(f'Chat: {answer} \n')
+            print(f'ETHAM: {answer} \n')
 
         else:
-            print('Chat: Não sei como reponder.')
-            new_answer: str = get_input('Podes me ensinar a resposta: ')
+            print('ETHAM: I am not sure how to respond.')
+            new_answer: str = get_input('Can you teach me the answer: ')
 
-            if new_answer.lower() == 'quit':
-                pass
-            elif new_answer.lower() != 'not':
+            if new_answer.lower() != 'not':
                 knowledge_base["questions"].append({"question": user_input, "answer": new_answer})
                 update_file_content(file, knowledge_base)
-                print('Chat: Agora aprendi.')
+                print('ETHAM: Now I understand.')
             print("")
 
 
@@ -122,7 +116,7 @@ if __name__ == '__main__':
         knowledge_base: dict = read_file_content(file)
 
         if knowledge_base == None:
-            print(f'O arquivo "{file}" não existe.\n Foi criado um novo arquivo para vocẽ poder usar.\n')
+            print(f'The file {file} does not exist. A new file has been created for you to use.\n')
         else:
             chat_bot(knowledge_base)
 
